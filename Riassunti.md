@@ -449,7 +449,6 @@ Per dockerizzare le applicazioni spring esistono due modalità:
 - automatica, utilizzo di plugin per maven o gradle.
 
 <div style="page-break-after: always;"></div>
-
 ## SERVETTI:
 
 ### 01- Javascript advanced
@@ -774,7 +773,7 @@ Le interazioni tra componenti padre-figlio (o fratello) possono avvenire via:
 
 - Input/output(padre-figlio)
 
-- https://angularfirebase.com/lessons/sharing-data-between-angular-components-four-methods/
+  https://angularfirebase.com/lessons/sharing-data-between-angular-components-four-methods/
 
   il padre passa al figlio dati bindati in input, @Input(), ed ascolta gli eventi (output) del figlio.
 
