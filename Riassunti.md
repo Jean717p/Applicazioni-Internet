@@ -7,7 +7,6 @@
 #### <div style="text-align:center">a.a. 2018/19 </div>
 
 <div style="page-break-after: always;"></div>
-
 ## Indice
 
 <!-- TOC -->
@@ -48,7 +47,6 @@
 <!-- /TOC -->
 
 <div style="page-break-after: always;"></div>
-
 ## MALNATI
 
 ### 01-HTTP
@@ -147,7 +145,7 @@ La single page application (SPA) oltre ad avere problemi di indicizzazione dei m
 
 Un programma contenitore monitora, gestisce, applica sicurezza in entrata e uscita, inoltra le risposte, instrada le richieste alla app/classe giusta. Utilizza un template standard in xml (Es tomcat). <br />
 **Container JavaEE:** <br />
-![Container](/Images/04_JavaEE_Container.png)
+![Container](/Images/04_JavaEE_Container.PNG)
 
 Le app JavaEE sono solitamente distribuite in **web archive (.war)** il cui nome solitamente definisce la url di base. Oltre ai file di configurazione e contenuti statici un war comprende i componenti elementari di una app JavaEE: Servlet, filtri, pagine JSP, Listener. <br />
 Il **Servlet** è la classe java per gestire le richieste ricevute dal contenitore, il quale ne gestisce il ciclo vita e la politica di concorrenza da adottare.
@@ -166,24 +164,26 @@ Complicato modificare risposta html, presentazione e logica fortemente accoppiat
 
 **Filtri** sono componenti java che trasformano richieste e risposte da/a un servlet. Più filtri possono essere collegati in cascata, seguendo il file web.xml che descrive anche la corrispondenza tra url e filtri. Sono utili per authN, compressione, crittografia...
 *(javax.servlet.Filter ---- @WebFilter)*. <br />
-![Filtri](/Images/04_JavaEE_Filtri.png) <br />
+![Filtri](/Images/04_JavaEE_Filtri.PNG) <br />
 **Java Server Pages (JSP)** contengono testo (html,xml...), frammenti di codice java e direttive per l'ambiete di esecuzione. Vivono nel contenitore che ne gestisce il ciclovita, esecuzione, http e supporto alle sessioni. Le jsp generano contenuto dinamico per i browser (simil php). <br />
 Sono composte da tag html e tag jsp: Commenti, direttive, Scriptlets, JavaBeans. <br/>
 Il **modello operativo:**
+
 1. Il contenitore riceve la richiesta della pagina JSP direttamente o tramite un server HTTP
 2. Il contenitore identifica il file richiesto e lo trasforma in classi sorgenti Java attraverso un programma specifico (*pageCompiler*)
 3. Il compilatore Java compila la classe prodotta, ne crea un’istanza e la caricata nel contenitore
 4. La richiesta ricevuta e i relativi parametri vengono inviati all’oggetto generato (servlet) che la elabora
 5. Il risultato viene inviato al client
 
-![ModelloOperativo](/Images/04_JavaEE_ModelloOperativo.png)
+![ModelloOperativo](/Images/04_JavaEE_ModelloOperativo.PNG)
 
 **Listener** gestisce l'insieme dei componenti ospitati all'interno di un contenitore JavaEE, governandone il ciclo vita, politiche di attivazione e controllandone risorse e concorrenza. Cambiamento di stato => listener.
 
 ### 05- Model View Controller (MVC):
 Le app web, lato server, hanno più strati:
 **data access, data domain, service e presentation layer**. <br />
-![APP_ARCHITECTURE](/Images/05_MVC_AppArchitecture.png)
+![APP_ARCHITECTURE](/Images/05_MVC_AppArchitecture.PNG)
+
 - **Data access layer** si occupa del trasferimento delle singole entità da e verso la sorgente dei dati, spesso costituito da un insieme di data access object (DAO) (Eg. classe UserDao --> persistenza di User).
 - **Data domain layer** è il modello logico dei dati cui deve essere applicata la logica di business dell'app, si appoggia al data access per reperire/rendere persistenti le informazioni che lo alimentano. (eg. modello classe User)
 - **Service layer** definisce il contratto tra utente e app (business logic), coordina e delega i vari compiti agli oggetti del dominio applicativo. (Eg. funzione register)
@@ -214,9 +214,8 @@ Spring fa largo uso dei Plain Old Java Object (POJO) ovvero non obbliga ad avere
 - ApplicationContext (scenari complessi)
 
 In Spring il ciclo vita di un Bean è più complesso di quello di un semplice oggetto, se una classe ha annotazioni o implementa opportune interfacce, le sue istanze potranno ricevere molteplici notifiche inerenti al procedere del loro ciclo di vita.
->  (non così rilevante per l'esame a detta mia)
 
-![BEAN_lifecycle](/Images/06_SpringBoot_BeanLifecycle.png)
+![BEAN_lifecycle](/Images/06_SpringBoot_BeanLifecycle.PNG)
 
 **Autowiring** è un modo per far risolvere a Spring automaticamente le dipendenze tra i bean, cercando nell'*ApplicationContext* i bean necessari.
 Ogni processo Spring Boot ha associato un file di configurazione *application.properties* che viene caricato in modo implicito.
@@ -266,10 +265,11 @@ E' possibile associare una classe ad ogni tabella del db definendola come DAO (D
 **Per Java c'è JPA o Java Persistent API la cui implementazione più nota è il framework Hibernate**. <br />
 Hibernate non richiede l'uso di un contenitore ed è adatto sia per app stand-alone che per app web, leggero e open-source ad elevate prestazioni dbms-indipendent. <br />
 App->Pojo->Hibernate (o Custom DAO)->JDBC->DBMS. <br />
-![HibernateArchitecture](/Images/09_Hibernate_architecture.png) <br />
+![HibernateArchitecture](/Images/09_Hibernate_architecture.PNG) <br />
 In Hibernate ogni classe entità viene preceduta da *@Entity*, *@id* per la chiave, *@ManyToMany*... <br />
 Le relazioni sono modellate tramite puntatori, per gli aggiornamenti in casscata aggiungere *@Cascade*. <br />
 Hibernate ha un suo sistema di **sessione** attraverso il quale compie le query e tiene traccia degli oggetti java, questi ultimi in una data sessione possono assumere **tre stati**:
+
 - Transient (appena creati)
 - Persistent (associato ad una sessione, le modifiche verranno propagate al db)
 - Detached (dopo la chiusura della transazione perde il legame col contesto di persistenza, lo si può rilegare a necessità).
@@ -337,7 +337,7 @@ Avere a disposizione una lista di utenti con i relativi ruoli è il primo passo 
 
 Con Spring è possibile esprimere restrizioni in due modi, a livello url o a livello dei singoli metodi di Bean (tipicamente servizi). <br />
 Durante il tentativo di accesso **il client prima deve authN** (gestita dall'AuthN manager) **e poi authZ** (gestita dall'access decision manager) **attraverso i filtri di Spring security.** Per il controllo via url si usa *HttpSecurity* per proteggere le url e definire le regole da applicare. <br />
-![Access request](/Images/13_SpringSec_richiesta.png) <br />
+![Access request](/Images/13_SpringSec_richiesta.PNG) <br />
 Le funzionalità di Spring security si prestano particolarmente ad essere inserite a livello di servizio (è possibile aggiungere annotazioni a supporto dei singoli metodi).
 
 **Json Web Token (JWT)** è un meccanismo di autorizzazione per l'accesso ad API web, prevede che il client invii nella propria richiesta una intestazione formata da tre parti separate da un '.': header, payload e signature.
@@ -450,7 +450,6 @@ Per dockerizzare le applicazioni spring esistono due modalità:
 
 <div style="page-break-after: always;"></div>
 
-
 ## SERVETTI:
 
 ### 01- Javascript advanced
@@ -474,9 +473,9 @@ It comes with the **benefits** of cross-platform compatibility, easy to deploy a
 
 **In Angular il controllore del MVC diventa il component, la vista il template.** Angular permette di strutturare il codice secondo le preferenze del programmatore sia in MVC (maggior separazione tra vista e logica) sia MVVM (il modello legge i cambiamenti della vista in modo autonomo e si aggiorna), il termine utilizzato per indicare questa possibilità in un framework è Model-View-Whatever (MVW). From MVC to MVVM (ModelView-ViewModel): il *ViewModel* non è un controllore ma lega i dati tra vista e modello al fine di farli comunicare l'un con l'altro. <br/>
 
-![mvc](/Images/03_SPA_mvc.png)
+![mvc](/Images/03_SPA_mvc.PNG)
 
-![mvvm](/Images/03_SPA_mvvm.png) <br/>**Components** are UI fundamental building blocks that should handle data transformations and controls passing data between template and model, and viceversa, without modifies to the domain model.
+![mvvm](/Images/03_SPA_mvvm.PNG) <br/>**Components** are UI fundamental building blocks that should handle data transformations and controls passing data between template and model, and viceversa, without modifies to the domain model.
 A component is a sw element that encapsulate a set of related functions (and/or data). All of the data and functions inside a component are semantically related (as with classes). Components communicate via interfaces. **A component delegates everything nonTrivial to services.** <br/>
 An SPA is nothing more than a tree of components.
 
@@ -499,7 +498,7 @@ Al fine di debuggare il codice in produzione esistono le source maps che mappano
 ### 05- Angular framework (single page app architecture)
 Web app frontend complesse necessitano di solidi framework di sviluppo, con Angular si può fare routing, REST, data binding, dependency injection ed estendere gli html per combinare presentazione e logica. <br/>
 Angular ha una sua CLI attraverso cui si possono scaricare moduli e pacchetti.<br/>**Angular Schema:**<br/>
-![AngularSchema](/Images/05_AngularFramework_schema.png)
+![AngularSchema](/Images/05_AngularFramework_schema.PNG)
 
 In Angular l'entry point dell'app è il componente **app-root**. Al bootstrapping il file di configurazione Angular.json specifica il main.ts da cui lanciare l'app attraverso un modulo chiamato appModule. **L'AppModule** specifica quale/i componente/i usare come top-level.<br/>
 **I Decorators (metadata)** dicono ad Angular come processare una classe (annotazioni). <br/>
@@ -516,7 +515,7 @@ La classe component controller (.ts) interagisce col template attraverso delle a
 **Il component di default è chiamato AppComponent.** <br/>
 I component sono creati a distrutti man mano che l'utente si muove attraverso le viste dell'app, l'app può fare azioni ad ogni momento del **lifecycle** attraverso l'utilizzo di chiamate specifiche (eg OnInit). <br/>
 Nel css tradizionale le proprietà hanno scope "system wide" ma in Angular è ristretto a quel component, **i cambiamenti di stile da altre parti non affliggono lo stile del singolo componente.** <br/>
-![AngularModule](/Images/05_AngularFramework_module.png)
+![AngularModule](/Images/05_AngularFramework_module.PNG)
 
 Il **Data Binding** permette di legare i dati tra componente e template. Ha 4 forme e due direzioni:
 - Interpolation <code> {{ < expression > }} </code> DOM<---Component
@@ -524,7 +523,7 @@ Il **Data Binding** permette di legare i dati tra componente e template. Ha 4 fo
 - Eventi binding <code> ( < event > ) </code> DOM--->Component
 - Two-way binding <code> [( <  > )] </code> DOM<--->Component
 
-![AngularBinding](/Images/05_AngularFramework_binding.png)
+![AngularBinding](/Images/05_AngularFramework_binding.PNG)
 
 Flusso unidirezionale: property (R),event (W)
 Le espressioni vengono prima valutate nel contesto del componente quindi convertite a stringhe. <br/> Interpolation ritorna sempre una stringa mentre il property binding qualsiasi tipo vogliamo.
@@ -579,7 +578,7 @@ Observable -> promise ma estese a sequenza di eventi
 Nei vecchi browser c'era un singolo thread per tutte le tab, utilizzando il paradigma **run-to-completion**, mentre oggi s'implementano più processi per tab/sito anche se con un overhead di memoria. Questo permette di sfruttare la programmazione asincrona in parallelo (background) sincronizzando eventualmente i thread con messaggi (**web workers**). <br/>
 **Run-to-completion** avendo solo un thread le task dovevano essere veloci e ritornare altrimenti si finiva ad avere una ui non reattiva. La task corrente veniva sempre finita prima di iniziarne un'altra (good practice: be fast or split), avendo il controllo di tutto lo stato corrente non c'era bisogno di preoccuparsi delle modifiche in concorrenza. <br/>
 Nella **programmazione ad eventi** ogni task agisce in risposta ad un evento (eg. Dom cambiato, user click, ajax call returned). Per elaborare queste task si utilizza lo scheduler asincrono del browser il quale esegue un event loop, ogni task da lanciare viene aggiunta ad una coda FIFO Task queue ed una volta completata la prima task della coda viene eseguita. La callback della task completata viene a sua volta aggiunta alla coda. <br/>
-![Scheduler](/Images/08_AngularAsyncProgramming_Scheduler.png) <br/>
+![Scheduler](/Images/08_AngularAsyncProgramming_Scheduler.PNG) <br/>
 **OSS:** Js lavora su un thread singolo ergo nessun nuovo evento può essere processato finché la call stack attuale non è di nuovo vuota.
 
 **Pull vs Push:**
@@ -587,7 +586,7 @@ Nella **programmazione ad eventi** ogni task agisce in risposta ad un evento (eg
 - push (usata negli observable), il producer di dati decide quando il consumer riceve i dati (eg. newsletter).
 
 **Callback Hell** accade quando c'è la necessità di concatenare una sequenza di operazioni asincrone. Annidando una callback dentro l'altra si arriva ad avere una piramide di callback, ramificata in successo e fallimento, troppo profonda da leggere e gestire. Utilizzando invece le promise si pretende che le chiamate asincrone siano sincrone, ritornando una promessa per il dato, in questo modo la gestione degli errori e la concatenazione delle callback diventa più semplice. <br/>
-![Scheduler](/Images/08_AngularAsyncProgramming_cbPromise.png) <br/>
+![Scheduler](/Images/08_AngularAsyncProgramming_cbPromise.PNG) <br/>
 **La promise** è un'interfaccia che rappresenta un proxy per un valore non necessariamente noto quando questa viene creata. Permette di associare handlers, per successo o fallimento ad un'azione asincrona. Queste permettono ai metodi asincroni di ritornare valori, anziché il valore finale, una promessa di avere quel valore in un certo momento nel futuro. Non "possiedono" i dati ricevuti, bisogna definire una callback per manipolarli una volta disponibili. <br/>
 Le promise possiedono tre stati:
 
@@ -623,7 +622,7 @@ come gli iterator, un observable può segnalare quando una sequenza è completat
 - Not Shared:
 un observable non condivide le chiamate subscribe a più observers (funzioni), ovvero **le chiamate *subscribe* sono *not shared among multiple observers of the same observable*.**
 (eg. return this.http.get().subscribe(cb) -> component -> template -> data$ | async). <br/>
-![Observable](/Images/09_JsFunctionalRx_observable.png) <br/>
+![Observable](/Images/09_JsFunctionalRx_observable.PNG) <br/>
 
 **RxJS è una libreria per comporre codice asincrono e basato su callback in uno stile functional "reactive".** <br/>
 Un observable può emettere tre cose differenti:
@@ -681,7 +680,7 @@ Le istanze dei form reattivi hanno un metodo *valueChanges* che ritorna un obser
 ### 11- Angular routing
 SPA complesse hanno stati multipli che possono corrispondere a view multiple le quali possono essere mappate con url diverse. <br/>
 Il **routing** permette di definire ed instradare ad un unico stato dell'app basandosi sulla url corrente, così da caricare una view differente nella spa. Si ci riferisce sempre  a SPAs perché il server ci ritorna sempre una singola pagina ma è il nostro js che la renderizza in pagine diverse. <br/>
-![](/Images/05_AngularFramework_schema.PNG) <br/>
+![AngularSchema - Routing](/Images/05_AngularFramework_schema.PNG) <br/>
 I componenti del routing di Angular sono:
 
 - Routes
@@ -715,7 +714,7 @@ stateful e responsabili di fecciare i dati che potrebbe dover essere visualizzat
 I component SMART top-level o container ricevono nel costruttore le dipendenze specifiche per la loro applicazione, sanno come recuperare i dati da un servizio/route e di che tipo sono, sono stateful e possono gestire le operazioni asincrone. Gestiscono gli eventi dei componenti interni (sub components) eseguendo le azioni corrette. <br/>
 I presentational component devono essere riutilizzabili mantenendoli più semplici possibile e riducendo le dipendenze implicite, quando un componente child fa un'azione che deve essere notificata al parent viene lanciato un evento delegando così anche tutti i cambiamenti e gli update dei dati ai componenti stateful. <br/>
 
-![ContainerComponent](/Images/12_AngularArchitecture_containerComponent.png) ![PresentationalComponent](/Images/12_AngularArchitecture_presentationalComponent.png) <br/>
+![ContainerComponent](/Images/12_AngularArchitecture_containerComponent.PNG) ![PresentationalComponent](/Images/12_AngularArchitecture_presentationalComponent.png) <br/>
 
 **Best practice:**
 
@@ -725,7 +724,7 @@ I presentational component devono essere riutilizzabili mantenendoli più sempli
 - Non aver paura di suddividere un componente se sta diventando troppo grosso.
 - Considerare costantemente i risvolti di ogni cambiamento mentre si sviluppa l'app.
 
-![AngularArchitecture](/Images/12_AngularArchitecture_architecture.png)
+![AngularArchitecture](/Images/12_AngularArchitecture_architecture.PNG)
 
 **Client-side model**
 Se si vuole mantenere un modello lato client dei dati del server ad esempio per lavorare offline (eg google Docs) abbiamo bisogno di un servizio di store che si comporti al contempo come producer di dati per i components e come consumer di dati del server. <br/>
@@ -733,7 +732,6 @@ Un servizio che può esser chiamato "**store**" è basato su RxJS Subject ed è 
 Un observable service crea un BehaviorSubject privato che emetterà i dati ed un pubblico Observable a cui si registreranno i components.
 
 <div style="page-break-after: always;"></div>
-
 ## Domande di esempio di Servetti
 
 **Descrivere**
@@ -806,7 +804,7 @@ Un esempio del terzo caso:
 
 **ii)** MVC e MVVM:
 
-![mvc](/Images/03_SPA_mvc.png) ![mvvm](/Images/03_SPA_mvvm.png)
+![mvc](/Images/03_SPA_mvc.PNG) ![mvvm](/Images/03_SPA_mvvm.PNG)
 
 In Angular il controllore del MVC diventa il component, la vista il template. Può essere tenuto un modello dati locale all’interno del servizio, ma la persistenza vera e propria viene mantenuta sul server e sincronizzata attraverso i servizi. Angular permette di strutturare il codice secondo le preferenze del programmatore sia in MVC (maggior separazione tra vista e logica) sia MVVM (il modello legge i cambiamenti della vista in modo autonomo e si aggiorna), il termine utilizzato per indicare questa possibilità in un framework è Model-View-Whatever (MVW). From MVC to MVVM (ModelView-ViewModel): il  ViewModel non è un controllore ma lega i dati tra vista e modello al fine di farli comunicare l'un con l'altro.
 
@@ -824,7 +822,7 @@ I component SMART top-level o container ricevono nel costruttore le dipendenze s
 
 I presentational component devono essere riutilizzabili mantenendoli più semplici possibile e riducendo le dipendenze implicite, quando un componente child fa un'azione che deve essere notificata al parent viene lanciato un evento delegando così anche tutti i cambiamenti e gli update dei dati ai componenti stateful.
 
-![ContainerComponent](/Images/12_AngularArchitecture_containerComponent.png) ![PresentationalComponent](/Images/12_AngularArchitecture_presentationalComponent.png)
+![ContainerComponent](/Images/12_AngularArchitecture_containerComponent.PNG) ![PresentationalComponent](/Images/12_AngularArchitecture_presentationalComponent.png)
 
 *mycomponent.html*: *<h1> {{ title }} </h1>*
 
@@ -911,7 +909,7 @@ Esempio:
 
 **Descrivere i) il meccanismo di gestione degli eventi in Javascript tramite l'event loop, ii) come viene gestita in particolare una richiesta AJAX e relativa callback, iii) chiarire quali sono i vantaggi e svantaggi della gestione/programmazione asincrona**
 
-![Scheduler](/Images/08_AngularAsyncProgramming_Scheduler.png)
+![Scheduler](/Images/08_AngularAsyncProgramming_Scheduler.PNG)
 
 Nella programmazione ad eventi ogni task agisce in risposta ad un evento (eg. Dom cambiato, user click, ajax call returned). Per elaborare queste task si utilizza lo scheduler asincrono del browser il quale esegue un event loop, ogni task da lanciare viene aggiunta ad una coda FIFO-Task ed una volta completata la prima task della coda viene eseguita. La callback della task completata viene a sua volta aggiunta alla coda. In particolare una richiesta ajax asincrona quando completata viene inserita nella coda degli eventi, una volta estratta dalla coda la sua relativa callback viene reinserita all’interno della FIFO ed eseguita solo al loop successivo.
 
@@ -943,7 +941,7 @@ Le promise possiedono tre stati:
 
 Le promises sono pensate per essere concatenate, ogni call alla funzione .then() permette di seguire una operazione async dopo l'altra e ritorna (come ogni manipolazione) una nuova promise, è importante manipolare (e ritornare) sempre la fine della coda di promises.
 
-![Scheduler](/Images/08_AngularAsyncProgramming_cbPromise.png)
+![Scheduler](/Images/08_AngularAsyncProgramming_cbPromise.PNG)
 
 Gli observables sono un nuovo metodo per pushare dati in js. Un observable è un producer di valori multipli, ad es. uno stream di dati, a cui fare query e manipolare.
 
@@ -959,7 +957,7 @@ Uno stream è una sequenza di eventi in corso ordinati nel tempo (anziché in me
 
 Gli eventi non erano abbastanza poiché devono forzare i side effects per avere un impatto (push degli observable) sul mondo e soprattutto negli eventi una serie di click non può essere passata come parametro e manipolata come sequenza che è.
 
-![Observable](/Images/09_JsFunctionalRx_observable.png)
+![Observable](/Images/09_JsFunctionalRx_observable.PNG)
 
 <code>
 
